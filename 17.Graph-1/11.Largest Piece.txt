@@ -1,0 +1,54 @@
+Largest Piece
+Send Feedback
+Its Gary's birthday today and he has ordered his favourite square cake consisting of '0's and '1's . But Gary wants the biggest piece of '1's and no '0's . A piece of cake is defined as a part which consist of only '1's, and all '1's share an edge with eachother on the cake. Given the size of cake N and the cake , can you find the size of the biggest piece of '1's for Gary ?
+Constraints :
+1<=N<=50
+Input Format :
+Line 1 : An integer N denoting the size of cake 
+Next N lines : N characters denoting the cake
+Output Format :
+Size of the biggest piece of '1's and no '0's
+Sample Input :
+2
+11
+01
+Sample Output :
+3
+Solution:
+import java.util.*;
+public class solution {
+  static int dx[]={0,0,-1,1};
+    static int dy[]={1,-1,0,0};
+    static int[][] visited;
+    public static int  solve(int n,String cake[]) {
+        int m=0;
+        visited=new int[n][n];
+        for(int i=0;i<n;i++){
+            Arrays.fill(visited[i],0);
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(cake[i].charAt(j)=='1' && visited[i][j]==0){
+                    m=Math.max(dfs(cake,i,j,n),m);
+                }
+            }
+        }
+        return m;
+    }
+
+    public static   int dfs(String cake[],int x,int y,int n){
+        if(visited[x][y]==1) return 0;
+        visited[x][y]=1;
+        int count=1;
+        for(int i=0;i<4;i++){
+            int nextX=x+dx[i];
+            int nextY=y+dy[i];
+            if(nextX>=0  && nextY>=0 && nextX<n && nextY<n && cake[nextX].charAt(nextY)=='1'){
+                count+=dfs(cake,nextX,nextY,n);
+            }
+        }
+
+        return count;
+    }
+
+}

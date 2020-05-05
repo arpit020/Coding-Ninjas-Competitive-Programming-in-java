@@ -1,0 +1,136 @@
+Counting Even/Odd
+Send Feedback
+Ashu and Shanu are best buddies. One day Shanu gives Ashu a problem to test his intelligence.He gives him an array of N natural numbers and asks him to solve the following queries:-
+Query 0 :- modify the element present at index i to x.
+Query 1:- count the number of even numbers in range l to r inclusive.
+Query 2:- count the number of odd numbers in range l to r inclusive.
+Input:
+First line of the input contains the number N. Next line contains N natural numbers. 
+Next line contains an integer Q followed by Q queries.
+
+0 x y - modify the number at index x to y. 
+
+1 x y - count the number of even numbers in range l to r inclusive.
+
+2 x y - count the number of odd numbers in range l to r inclusive.
+Constraints:
+1<=N,Q<=10^5
+
+1<=l<=r<=N 
+
+0<=Ai<=10^9
+
+1<=x<=N
+
+0<=y<=10^9
+Note:-
+indexing starts from 1.
+Sample Input
+6
+1 2 3 4 5 6
+4
+1 2 5
+2 1 4
+0 5 4
+1 1 6
+Sample Output
+2
+2
+4
+
+Solution:
+import java.util.Scanner;
+class Main{
+    static  void  create(int arr[],node tree[],int treeNode,int start,int end){
+        if(start==end){
+            int even=0;
+            int odd=0;
+            if(arr[start]%2==0){
+                even++;
+            }else {
+                odd++;
+            }
+            tree[treeNode]=new node(even,odd);
+            return;
+        }
+        int mid=(start+end)/2;
+        create(arr,tree,2*treeNode,start,mid);
+        create(arr,tree,2*treeNode+1,mid+1,end);
+        int even =tree[2*treeNode].even+tree[2*treeNode+1].even;
+        int odd=tree[2*treeNode].odd+tree[2*treeNode+1].odd;
+        tree[treeNode]=new node(even,odd);
+    }
+    static void update(int arr[],node tree[],int start,int end,int treeNode,int index,int value){
+        if(start==end){
+            int even=0,odd=0;
+            if(value%2==0)
+                even++;
+            else
+                odd++;
+
+            tree[treeNode]=new node(even,odd);
+            arr[index]=value;
+            return;
+        }
+        int mid=(start+end)/2;
+        if(index<=mid){
+            update(arr,tree,start,mid,2*treeNode,index,value);
+        }else{
+            update(arr,tree,mid+1,end,2*treeNode+1,index,value);
+        }
+        int odd=tree[2*treeNode].odd+tree[2*treeNode+1].odd;
+        int even=tree[2*treeNode].even+tree[2*treeNode+1].even;
+        tree[treeNode]=new node(even,odd);
+    }
+
+    static  node  query(node tree[],int treeNode,int start,int end,int left,int right){
+        if(right<start ||  end<left ){
+            return new node(0,0);
+        }
+
+        if(left<=start && right>=end){
+            return tree[treeNode];
+        }
+        int mid=(start+end)/2;
+        node a1=query(tree,2*treeNode,start,mid,left,right);
+        node a2=query(tree,2*treeNode+1,mid+1,end,left,right);
+        int odd=a1.odd+a2.odd;
+        int even=a1.even+a2.even;
+        return new node(even,odd);
+    }
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        int arr[]=new int[a];
+        node tree[]=new node[4*a];
+        for (int i=0;i<a;i++){
+            arr[i]=sc.nextInt();
+        }
+      create(arr,tree,1,0,a-1);
+        int b=sc.nextInt();
+        for(int i=0;i<b;i++){
+            int x1=sc.nextInt();
+            int x2=sc.nextInt();
+            int x3=sc.nextInt();
+            if(x1==0){
+                update(arr,tree,0,a-1,1,x2-1,x3);
+            }else{
+                node nn=query(tree,1,0,a-1,x2-1,x3-1);
+                if(x1==1){
+                    System.out.println(nn.even);
+                }else{
+                    System.out.println(nn.odd);
+                }
+            }
+        }
+    }
+}
+class node{
+    int even;
+    int odd;
+    node(int even,int odd){
+        this.even=even;
+        this.odd=odd;
+    }
+
+}

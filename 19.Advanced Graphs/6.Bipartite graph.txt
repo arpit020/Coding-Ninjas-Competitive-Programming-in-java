@@ -1,0 +1,52 @@
+Bipartite graph:
+
+import java.util.*;
+public class Bipartite {
+    static boolean bipartite(ArrayList<ArrayList<Integer>> graph,int n){
+        Queue<Integer> queue=new LinkedList<>();
+        queue.add(0);
+        Set<Integer> aa[]=new Set[2];
+        aa[0]=new HashSet<>();
+        aa[1]=new HashSet<>();
+        aa[0].add(0);
+        while (!queue.isEmpty()){
+            int x1=queue.poll();
+            int kk=(aa[0].contains(x1))?0:1;
+            for (int i=0;i<graph.get(x1).size();i++){
+                int x2=graph.get(x1).get(i);
+                if(aa[0].contains(x2)==false && aa[1].contains(x2)==false){
+                    aa[kk^1].add(x2);
+                    queue.add(x2);
+                }
+                 else if(aa[kk].contains(x2)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public static void  main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int testcase_no=sc.nextInt();
+        for(int i=0;i<testcase_no;i++){
+            int vertices=sc.nextInt();
+            int edges=sc.nextInt();
+            ArrayList<ArrayList<Integer>> graph=new ArrayList<>(vertices);
+            for (int j=0;j<vertices;j++){
+                graph.add(new ArrayList<>());
+            }
+            for(int j=0;j<edges;j++){
+                int x1=sc.nextInt();
+                int x2=sc.nextInt();
+                graph.get(x1).add(x2);
+                graph.get(x2).add(x1);
+            }
+            boolean ans=bipartite(graph,vertices);
+            if (ans){
+                System.out.println("BIOCOLORABLE");
+            }else{
+                System.out.println("NOT BIOCOLORABLE");
+            }
+        }
+    }
+}

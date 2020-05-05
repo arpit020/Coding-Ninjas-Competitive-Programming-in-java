@@ -1,0 +1,43 @@
+Modulo inverse:
+Given A and m
+find B such that (A*B)mod(m)=1;
+
+Solution:
+class Main{
+    static Triplet ans(int x,int y){
+        Triplet ans=new Triplet();
+        if(y==0){
+            ans.x=1;
+            ans.y=0;
+            ans.gcd=x;
+            return ans;
+        }
+        Triplet aa=ans(y,x%y);
+        ans.x=aa.y;
+        ans.y=aa.x-(x/y)*aa.y;
+        ans.gcd=aa.gcd;
+        return ans;
+    }
+
+    static Integer moduloInverse(int A,int M){
+
+        Triplet aa= ans(A,M);
+        if(aa.gcd!=1){
+            return null;
+        }
+        return aa.x;
+    }
+    public static void main(String args[]){
+        Integer ans=moduloInverse(5,12);
+        if(ans!=null){
+            System.out.println(ans);
+        }else {
+            System.out.println("Modulo Inverse does not exist");
+        }
+    }
+}
+class Triplet{
+    int x;
+    int y;
+    int gcd;
+}

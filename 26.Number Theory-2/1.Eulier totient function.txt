@@ -1,0 +1,24 @@
+class Main{
+
+    static void totient_function(int n){
+        int sieve[]=new int[n+1];
+        for(int i=0;i<=n;i++){
+            sieve[i]=i;
+        }
+        for(int i=2;i<=n;i++){
+            if(sieve[i]==i){
+                sieve[i]=i-1;
+                for(int j=i*2;j<=n;j+=i){
+                    sieve[j]=sieve[j]*(i-1)/i;
+                }
+            }
+        }
+
+        for(int i=0;i<=n;i++){
+            System.out.println(i+"'s totient value is "+sieve[i]);
+        }
+    }
+    public static void main(String args[]){
+        totient_function(12);
+    }
+}

@@ -1,0 +1,60 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+class Mqustn2{
+    public static void string(String s){
+        HashMap<Character,ArrayList<Integer>>aa=new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            if(!aa.containsKey((char)(i+97))){
+                aa.put(s.charAt(i),new ArrayList<>());
+            }
+        }
+        for(int i=0;i<s.length();i++){
+            aa.get((s.charAt(i))).add(i);
+        }
+        System.out.println(aa);
+        int odd=0;
+        for(int i=0;i<26;i++){
+            if(aa.containsKey((char)  (i+97))) {
+                int xx = aa.get(((char)(i + 97))).size();
+                if (xx % 2 != 0)
+                    odd++;
+            }
+        }
+        System.out.println(odd);
+
+        if(odd>=2){
+            System.out.println("yes");
+            return;
+        }
+
+        int arr[]=new int[s.length()];
+        int start=0;
+        int end=s.length()-1;
+        for(int i=0;i<26;i++){
+            char ss=(char) (i+97);
+            if(aa.containsKey(ss)){
+                for(int j=0;j<aa.get(ss).size();j+=2){
+                    if(aa.get(ss).size()-j==1){
+                        arr[s.length()/2]=aa.get(ss).get(j);
+                        continue;
+                    }
+                    arr[start]=aa.get(ss).get(j);
+                    arr[end]=aa.get(ss).get(j+1);
+                    start++;
+                    end--;
+
+                }
+            }
+        }
+
+        for(int i:arr){
+            System.out.print(i+1+" ");
+        }
+    }
+
+    public static void main(String args[]){
+        string("abc");
+
+    }
+}

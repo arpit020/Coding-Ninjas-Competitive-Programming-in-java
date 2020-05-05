@@ -1,0 +1,113 @@
+Vasya vs Rhezo
+Send Feedback
+Queen Vasya is preparing for a war against Rhezo. She has N warriors in total arranged in a line. Let us number the warriors by numbers from 1 to N. She will fight Rhezo's army for Q days, and each day she can choose only one warrior.
+For each warrior, we know 2 values associated with him, let us call these A and B. Each day Vasya can choose her warrior from a range Li to Ri, she must choose the warrior with maximum A value. If there is more than 1 warrior having the same maximum A value, she chooses the warrior with minimum B value. If still there is more than 1 warrior with same maximum A value and same minimum B value, she chooses the one with lower index in line.
+You being the hand of Queen Vasya, need to help her in choosing the warrior for each day.
+Input:
+First line contains a single integer N, denoting the number of warriors Queen Vasya has. 
+Second line contains N space separated integers Ai. Third line contains N space separated integers Bi.
+Next line contains a single integer Q, denoting the number of days Queen Vasya chooses a warrior. 
+Each of the next Q lines contains 2 integers Li and Ri.
+Output:
+For each Li and Ri, print the index of the warrior that Queen Vasya should choose.
+Constraints:
+1= N,Q =10^6
+1= Ai,Bi =10^9
+1=Li=Ri
+Sample Input
+5
+1 8 4 6 8
+4 8 6 3 7
+4
+1 4
+2 4
+3 4
+1 5
+Sample Output
+2
+2
+4
+5
+Solution:
+We will store index value
+
+import java.util.Scanner;
+class Main{
+    static  void  create(int arr[],int arr1[],int tree[],int treeNode,int start,int end){
+        if(start==end){
+            tree[treeNode]=start;
+            return;
+        }
+        int mid=(start+end)/2;
+        create(arr,arr1,tree,2*treeNode,start,mid);
+        create(arr,arr1,tree,2*treeNode+1,mid+1,end);
+        int x1=tree[2*treeNode];
+        int x2=tree[2*treeNode+1];
+        if(arr[x1]>arr[x2]){
+            tree[treeNode]=x1;
+        }else if(arr[x1]<arr[x2]){
+            tree[treeNode]=x2;
+        }else{
+            if(arr1[x1]>arr1[x2]){
+                tree[treeNode]=x2;
+            }else if(arr1[x1]<arr1[x2]){
+                tree[treeNode]=x1;
+            }else{
+                tree[treeNode]=x1;
+            }
+
+        }
+        return;
+    }
+
+    static  int query(int arr[],int arr1[],int tree[],int treeNode,int start,int end,int left,int right){
+        if(right<start ||  end<left ){
+            return left;
+        }
+        if(left<=start && right>=end){
+            return tree[treeNode];
+        }
+        int mid=(start+end)/2;
+        int x1=query(arr,arr1,tree,2*treeNode,start,mid,left,right);
+        int x2=query(arr,arr1,tree,2*treeNode+1,mid+1,end,left,right);
+
+        if(arr[x1]>arr[x2]){
+            return x1;
+        }else if(arr[x1]<arr[x2]){
+            return  x2;
+        }else{
+            if(arr1[x1]>arr1[x2]){
+                return x2;
+            }else if(arr1[x1]<arr1[x2]){
+                return x1;
+            }else{
+                return x1;
+            }
+
+        }
+
+    }
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        int arr[]=new int[a];
+        int arr1[]=new int[a];
+        int tree[]=new int[4*a];
+        for (int i=0;i<a;i++){
+            arr[i]=sc.nextInt();
+        }
+        for (int i=0;i<a;i++){
+            arr1[i]=sc.nextInt();
+        }
+        create(arr,arr1,tree,1,0,a-1);
+        int b=sc.nextInt();
+        for(int i=0;i<b;i++) {
+            int a1=sc.nextInt();
+            int a2=sc.nextInt();
+            int ans=query(arr,arr1,tree,1,0,a-1,a1-1,a2-1);
+            System.out.println(ans+1);
+        }
+    }
+
+}
+

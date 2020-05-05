@@ -1,0 +1,73 @@
+Strongly connected components(such component where each vertex has a path to the other vertex)
+Kosaraju's Algorithm:
+import java.util.*;
+public class SSC {
+    static void DFS1(ArrayList<ArrayList<Integer>> graph,int source,boolean visited[],Stack<Integer> stack){
+        visited[source]=true;
+        for (int i=0;i<graph.get(source).size();i++){
+            int mm=graph.get(source).get(i);
+            if(visited[mm]==false){
+                DFS1(graph,mm,visited,stack);
+            }
+        }
+        stack.add(source);
+    }
+    static Set<Integer> DFS2(ArrayList<ArrayList<Integer>> graph,int source,boolean visited[],Set<Integer> set){
+        visited[source]=true;
+        for (int i=0;i<graph.get(source).size();i++){
+            int mm=graph.get(source).get(i);
+            if(visited[mm]==false){
+               set.addAll(DFS2(graph,mm,visited,set));
+            }
+        }
+        set.add(source);
+        return set;
+    }
+    static void ssc(ArrayList<ArrayList<Integer>> graph,ArrayList<ArrayList<Integer>> graph1,int n){
+        boolean visited[]=new boolean[n];
+        Stack<Integer> stack=new Stack<>();
+        for(int i=0;i<n;i++){
+            if(visited[i]==false){
+               DFS1(graph,i,visited,stack);
+            }
+        }
+        Arrays.fill(visited,false);
+        ArrayList<Set<Integer>> aa=new ArrayList<>();
+
+        while (!stack.isEmpty()){
+            int a=stack.pop();
+            if(!visited[a]){
+                Set<Integer> set=new HashSet<>();
+                aa.add(DFS2(graph1,a,visited,set));
+            }
+        }
+        System.out.println(aa.size());
+
+        for(int i=0;i<aa.size();i++){
+            for (int j:aa.get(i)){
+                System.out.print(j+" ");
+            }
+            System.out.println();
+        }
+    }
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int vertex=sc.nextInt();
+        ArrayList<ArrayList<Integer>>  aa=new ArrayList<>(vertex);
+        for (int i=0;i<vertex;i++){
+            aa.add(new ArrayList<Integer>());
+        }
+        ArrayList<ArrayList<Integer>>  aa1=new ArrayList<>(vertex);
+        for (int i=0;i<vertex;i++){
+            aa1.add(new ArrayList<Integer>());
+        }
+        int edge=sc.nextInt();
+        for(int i=0;i<edge;i++){
+            int x1=sc.nextInt();
+            int x2=sc.nextInt();
+            aa.get(x1-1).add(x2-1);
+            aa1.get(x2-1).add(x1-1);
+        }
+        ssc(aa,aa1,vertex);
+    }
+}

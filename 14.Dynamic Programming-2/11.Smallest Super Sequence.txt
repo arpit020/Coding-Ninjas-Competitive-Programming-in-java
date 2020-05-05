@@ -1,0 +1,77 @@
+Smallest Super-Sequence
+Send Feedback
+Given two strings S and T, find and return the length of their smallest super-sequence.
+A shortest super sequence of two strings is defined as the shortest possible string containing both strings as subsequences.
+Note that if the two strings do not have any common characters, then return the sum of lengths of the two strings.
+Input Format:
+Line 1 : A string
+Line 2: Another string
+Output Format:
+Length of the smallest super-sequence of given two strings. 
+Sample Input:
+ab
+ac
+Sample Output:
+3
+Sample Output Explanation:
+Their smallest super-sequence can be "abc" which has length=3.
+
+Solution:
+import java.util.*;
+public class Solution {
+    static int dp[][];
+
+	public static int smallestSuperSequence(String str1, String str2) {
+        dp=new int[str1.length()+1][str2.length()+1];
+        for(int i=0;i<str1.length();i++){
+            for(int j=0;j<str2.length();j++){
+                dp[i][j]=-1;
+            }
+        }
+        return fun(str1,str2,0,0);
+	}
+    
+    public static int fun(String s1,String s2,int pos1,int pos2){
+        if(pos1>=s1.length()){
+            return s2.length()-pos2;
+        }    
+        if(pos2>=s2.length()){
+               return s1.length()-pos1;
+           }
+        if(dp[pos1][pos2] !=-1){
+            return dp[pos1][pos2];
+        }
+        if(s1.charAt(pos1)==s2.charAt(pos2)){
+            dp[pos1][pos2]= 1+fun(s1,s2,pos1+1,pos2+1);
+             return dp[pos1][pos2];
+        }
+        dp[pos1][pos2]=1+Math.min(fun(s1,s2,pos1+1,pos2),fun(s1,s2,pos1,pos2+1));   
+         return dp[pos1][pos2];
+    }
+}
+
+Solution 2:
+public class Solution {
+
+	public static int smallestSuperSequence(String s1, String s2) {
+		 int dp[][]=new int[s1.length()+1][s2.length()+1];
+        for(int i=0;i<=s1.length();i++){
+            dp[i][0]=i;
+        }
+        for(int i=0;i<=s2.length();i++){
+            dp[0][i]=i;
+        }
+        for(int i=1;i<=s1.length();i++){
+            for (int j=1;j<=s2.length();j++){
+                if(s1.charAt(i-1)==s2.charAt(j-1)){
+                    dp[i][j]=1+dp[i-1][j-1];
+                }else {
+                    dp[i][j]=1+Math.min(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        return dp[s1.length()][s2.length()];
+
+	}
+}
+

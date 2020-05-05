@@ -1,0 +1,105 @@
+Knapsnack - Problem
+Send Feedback
+A thief robbing a store and can carry a maximal weight of W into his knapsack. There are N items and ith item weigh wi and is of value vi. What is the maximum value V, that thief can take ?
+Space complexity should be O(W).
+Input Format :
+Line 1 : N i.e. number of items
+Line 2 : N Integers i.e. weights of items separated by space
+Line 3 : N Integers i.e. values of items separated by space
+Line 4 : Integer W i.e. maximum weight thief can carry
+Output Format :
+Line 1 : Maximum value V
+Constraints
+1 <= N <= 10^4
+1<= wi <= 100
+1 <= vi <= 100
+Sample Input 1 :
+4
+1 2 4 5
+5 4 8 6
+5
+Sample Output :
+13
+Solution:
+
+public class Solution {
+    public static int knapsack(int[] weight,int value[],int maxWeight){
+        int dp[][]=new int[2][maxWeight+1];
+        int flag=1;
+        for(int i=1;i<=value.length;i++){
+            for(int j=1;j<=maxWeight;j++){
+                dp[flag][j]=dp[flag^1][j];
+                if(weight[i-1]<=j){
+                    dp[flag][j]=Math.max(dp[flag][j],value[i-1]+dp[flag^1][j-weight[i-1]]);
+                }
+            }
+            flag=flag^1;
+        }
+        
+        return dp[flag^1][maxWeight];
+    }
+    
+}
+        
+	
+	/*
+	
+	public static int knapsack(int[] weight,int value[],int maxWeight){
+
+	 Your class should be named Solution.
+	  Don't write main() function.
+	  Don't read input, it is passed as function argument.
+	  Return output and don't print it.
+	  Taking input and printing output is handled automatically.
+	 
+		int col=maxWeight+1;
+        int row=value.length+1;
+        
+        int dp[][]=new int[value.length+1][maxWeight+1];
+       
+        
+        for(int i=1;i<row;i++){
+            for(int j=1;j<col;j++){
+                dp[i][j]=dp[i-1][j];
+                if(weight[i-1]<=j){
+                    dp[i][j]=Math.max(dp[i][j],value[i-1]+dp[i-1][j-weight[i-1]]);
+                }   
+            }
+        }
+        
+        return dp[row-1][col-1];
+        
+        
+	}
+	
+}
+
+
+public class Solution {
+    static int dp[][];
+	public static int knapsack(int[] weight,int value[],int maxWeight){
+        dp=new int[weight.length][maxWeight+1];
+        for(int i=0;i<weight.length;i++){
+            for(int j=0;j<=maxWeight;j++){
+                dp[i][j]=-1;
+            }
+        }
+        return func(weight,value,maxWeight,weight.length-1);
+	}
+    static int func(int[] weight,int value[],int maxWeight,int pos){
+        if(pos<0){
+            return 0;
+        }
+        if(dp[pos][maxWeight]>-1){
+            return dp[pos][maxWeight];
+        }
+        int x1=0;
+        if(weight[pos]<=maxWeight){
+             x1=value[pos]+func(weight,value,maxWeight-weight[pos],pos-1);
+        }
+         int x2=func(weight,value,maxWeight,pos-1);
+         dp[pos][maxWeight]=Math.max(x1,x2);
+         return dp[pos][maxWeight];
+    }
+}
+*/

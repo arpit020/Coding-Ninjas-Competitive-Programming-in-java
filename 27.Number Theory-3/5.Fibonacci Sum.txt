@@ -1,0 +1,64 @@
+Fibonacci Sum
+Send Feedback
+The fibonacci sequence is defined by the following relation:
+ F(0) = 0
+ F(1) = 1
+ F(N) = F(N - 1) + F(N - 2), N >= 2
+Your task is very simple. Given two non-negative integers N and M (N <= M), you have to calculate and return the sum (F(N) + F(N + 1) + ... + F(M)) mod 1000000007.
+Input Format :
+Two non-negative integers N and M. (N <= M)
+Output Format :
+A single line containing the answer for the task.
+Sample Input :
+10 
+19
+Sample Output :
+10857
+Solution:
+public class Solution {
+	public static long fiboSum(long m, long n) {
+		long a1=fibonacci(n+2);
+        long a2=fibonacci(m+1);
+        long ans=(a1-a2+MOD)%MOD;
+        return ans;
+	}
+    static int MOD=1000000007;
+    static void multiply(long A[][],long M[][]){
+        A[0][0] %= 1000000007;
+        A[0][1] %= 1000000007;
+        A[1][0] %= 1000000007;
+        A[1][1] %= 1000000007;
+
+        M[0][0] %= 1000000007;
+        M[0][1] %= 1000000007;
+        M[1][0] %= 1000000007;
+        M[1][1] %= 1000000007;
+        long f1=(A[0][0]*M[0][0])%MOD+(A[0][1]*M[1][0])%MOD;
+        long f2=(A[0][0]*M[0][1])%MOD+(A[0][1]*M[1][1])%MOD;
+        long f3=(A[1][0]*M[0][0])%MOD+(A[1][1]*M[1][0])%MOD;
+        long f4=(A[1][0]*M[0][1])%MOD+(A[1][1]*M[1][1])%MOD;
+        A[0][0]=f1%MOD;
+        A[0][1]=f2%MOD;
+        A[1][0]=f3%MOD;
+        A[1][1]=f4%MOD;
+    }
+    static void power(long A[][],long n){
+        if(n==0 || n==1){
+            return;
+        }
+        power(A,n/2);
+        multiply(A,A);
+        if(n%2==1){
+            long M[][]={{1,1},{1,0}};
+            multiply(A,M);
+        }
+    }
+    static long fibonacci(long n){
+        if(n==0){
+            return 0;
+        }
+        long A[][]={{1,1},{1,0}};
+        power(A,n-1);
+        return (A[0][0]+MOD)%MOD;
+    }
+}

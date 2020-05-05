@@ -1,0 +1,28 @@
+Extended Euclid Algorithm
+class Main{
+    static Triplet ans(int x,int y){
+        Triplet ans=new Triplet();
+        if(y==0){
+            ans.x=1;
+            ans.y=0;
+            ans.gcd=x;
+            return ans;
+        }
+        Triplet aa=ans(y,x%y);
+        ans.x=aa.y;
+        ans.y=aa.x-(x/y)*aa.y;
+        ans.gcd=aa.gcd;
+        return ans;
+    }
+    public static void main(String args[]){
+        Triplet ans=ans(15,10);
+        System.out.println(ans.x);
+        System.out.println(ans.y);
+        System.out.println(ans.gcd);
+    }
+}
+class Triplet{
+    int x;
+    int y;
+    int gcd;
+}

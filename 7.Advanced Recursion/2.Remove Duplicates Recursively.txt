@@ -1,0 +1,32 @@
+Remove Duplicates Recursively
+Send Feedback
+Given a string S, remove consecutive duplicates from it recursively.
+Input Format :
+String S
+Output Format :
+Output string
+Constraints :
+1 <= Length of String S <= 10^3
+Sample Input :
+aabccba
+Sample Output :
+abcba
+
+Solution:
+public class Solution {
+
+	public static String removeConsecutiveDuplicates(String s) {
+		// Write your code here
+        
+        if(s.length()==1){
+            return s;
+        }
+        
+        if(s.charAt(0)==s.charAt(1)){
+            return removeConsecutiveDuplicates(s.substring(1));
+        }
+            return s.substring(0,1)+removeConsecutiveDuplicates(s.substring(1));        
+
+	}
+
+}

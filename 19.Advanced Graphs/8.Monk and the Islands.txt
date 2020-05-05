@@ -1,0 +1,92 @@
+Monk and the Islands
+Send Feedback
+MONK AND THE ISLAND
+Monk visits the land of Islands. There are a total of N islands numbered from 1 to N. Some pairs of islands are connected to each other by Bidirectional bridges running over water.
+Monk hates to cross these bridges as they require a lot of efforts. He is standing at Island #1 and wants to reach the Island #N. Find the minimum the number of bridges that he shall have to cross, if he takes the optimal route.
+Input:
+First line contains T. T testcases follow.
+First line of each test case contains two space-separated integers N, M.
+Each of the next M lines contains two space-separated integers X and Y , denoting that there is a bridge between Island X and Island Y.
+Output:
+Print the answer to each test case in a new line.
+Constraints:
+1 = T = 10
+1 = N = 10000
+1 = M = 100000
+1 = X, Y = N
+SAMPLE INPUT
+2
+3 2
+1 2
+2 3
+4 4
+1 2
+2 3
+3 4
+4 2
+SAMPLE OUTPUT
+2
+2
+Solution:
+import java.util.*;
+public class Main{
+    static Map<Integer,Integer> DFS(ArrayList<ArrayList<Integer>> graph,int n,int start,int end,boolean visited[]) {
+        Map<Integer, Integer> aa = new HashMap<>();
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(start);
+        visited[start] = true;
+        while (!queue.isEmpty()) {
+            int a = queue.poll();
+            for (int i = 0; i < graph.get(a).size(); i++) {
+                int mm=graph.get(a).get(i);
+                if (visited[mm] == false) {
+                    queue.add(mm);
+                    aa.put(mm, a);
+                    visited[mm] = true;
+                    if (mm== end) {
+                        return aa;
+                    }
+                }
+            }
+        }
+        return aa;
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        for (int k1=0;k1<a;k1++){
+        int vertices=sc.nextInt();
+        ArrayList<ArrayList<Integer>> list=new ArrayList<>(vertices);
+        for (int i=0;i<vertices;i++){
+            list.add(new ArrayList<>());
+        }
+        boolean visited[]=new boolean[vertices];
+        int edges=sc.nextInt();
+        for(int i=0;i<edges;i++){
+            int x1=sc.nextInt();
+            int x2=sc.nextInt();
+            list.get(x1-1).add(x2-1);
+            list.get(x2-1).add(x1-1);
+        }
+        int start=0;
+        int end=vertices-1;
+            if(start==end){
+                System.out.println(0);
+            }
+        else{
+            Map<Integer,Integer> xx=DFS(list,vertices,start,end,visited);
+            int count=0;
+            int mm=end;
+            if(xx.containsKey(mm)) {
+                while (mm != start) {
+                    int k = xx.get(mm);
+                    mm = k;
+                    count++;
+                }
+            }
+            System.out.println(count);
+        }
+    }
+    }
+
+}

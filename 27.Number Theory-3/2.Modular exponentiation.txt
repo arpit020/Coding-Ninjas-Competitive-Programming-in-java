@@ -1,0 +1,22 @@
+class Main{
+    public  static int modular_expo(int a,int b,int c) {
+        if (a == 0) {
+            return 0;
+        }
+        if (b == 0) {
+            return 1;
+        }
+        if (b % 2 == 1) {
+            int smallAns = modular_expo(a, b - 1, c);
+            long ans = a % c;
+            ans = (ans * smallAns) % c;
+            return (int) (ans + c) % c;
+        }
+        int smallAns = modular_expo(a, b / 2, c);
+        long ans = (smallAns * smallAns) % c;
+        return (int) (ans + c) % c;
+    }
+    public static void main(String[] args){
+        System.out.println(modular_expo(2,10,5));
+    }
+}

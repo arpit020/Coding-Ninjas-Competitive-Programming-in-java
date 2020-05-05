@@ -1,0 +1,107 @@
+Permutation Swaps
+Send Feedback
+Kevin has a permutation P of N integers 1, 2, ..., N, but he doesn't like it. Kevin wants to get a permutation Q.
+
+Also he believes that there are M good pairs of integers (ai , bi). Kevin can perform following operation with his permutation:
+
+Swap Px and Py only if (x, y) is a good pair.
+Help him and tell if Kevin can obtain permutation Q using such operations.
+Input format:
+The first line of input will contain an integer T, denoting the number of test cases.
+
+Each test case starts with two space-separated integers N and M. The next line contains N space-separated integers Pi. The next line contains N space-separated integers Qi. Each of the next M lines contains two space-separated integers ai and bi.
+Output format:
+For every test case output "YES" (without quotes) if Kevin can obtain permutation Q and "NO" otherwise.
+Constraints:
+1 = T = 10
+2 = N = 100000
+1 = M = 100000
+1 = Pi, Qi = N. Pi and Qi are all distinct.
+1 = ai < bi = N
+SAMPLE INPUT
+2
+4 1
+1 3 2 4
+1 4 2 3
+3 4
+4 1
+1 3 2 4
+1 4 2 3
+2 4
+SAMPLE OUTPUT
+NO 
+YES
+
+Solution:
+import java.util.*;
+public class Main{
+    static LinkedList<Integer> BFS(ArrayList<ArrayList<Integer>> edge,boolean visited[],int source,int n){
+        Queue<Integer> queue=new LinkedList<>();
+        LinkedList<Integer> set=new LinkedList<>();
+        queue.add(source);
+        set.add(source);
+        visited[source]=true;
+        while (!queue.isEmpty()){
+            int xx=queue.poll();
+            for (int i=0;i<edge.get(xx).size();i++){
+                if (!visited[edge.get(xx).get(i)]){
+                    queue.add(edge.get(xx).get(i));
+                    set.add(edge.get(xx).get(i));
+                    visited[edge.get(xx).get(i)]=true;
+                }
+            }
+        }
+        return set;
+    }
+    static boolean check(ArrayList<ArrayList<Integer>> edge,int n,String arr1[],String arr2[]){
+        boolean visited[]=new boolean[n];
+        ArrayList<LinkedList<Integer>> list=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            if(!visited[i]){
+                list.add(BFS(edge,visited,i,n));
+            }
+        }
+
+        boolean kk=true;
+
+        for(int i=0;i<list.size();i++){
+            Set<String> set1=new LinkedHashSet<>();
+            Set<String> set2=new LinkedHashSet<>();
+
+            for(int j=0;j<list.get(i).size();j++){
+                set1.add(arr1[list.get(i).get(j)]);
+                set2.add(arr2[list.get(i).get(j)]);
+            }
+            if(!set1.equals(set2)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        for (int i=0;i<a;i++){
+            int x1=sc.nextInt();
+            int x2=sc.nextInt();
+            sc.nextLine();
+            String arr1[]= sc.nextLine().split(" ");
+            String arr2[]=sc.nextLine().split(" ");
+            ArrayList<ArrayList<Integer>> list=new ArrayList<>(x1);
+            for (int m1 = 0; m1 < x1; m1++)
+                list.add(new ArrayList<Integer>());
+            for(int k=0;k<x2;k++){
+                int b1=sc.nextInt();
+                int b2=sc.nextInt();
+                list.get(b1-1).add(b2-1);
+                list.get(b2-1).add(b1-1);
+            }
+            boolean kk=check(list,x1,arr1,arr2);
+            if(kk){
+                System.out.println("YES");
+            }else{
+                System.out.println("NO");
+            }
+        }
+    }
+}

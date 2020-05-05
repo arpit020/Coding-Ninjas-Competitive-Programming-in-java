@@ -1,0 +1,60 @@
+public class TrieMaxXORpair {
+    static class trieNode{
+        trieNode left=null;
+        trieNode right=null;
+    }
+    static trieNode head=new trieNode();
+    static void insert(int value){
+        trieNode current=head;
+        for(int i=31;i>=0;i--){
+            int b=(value>>i)&1;
+            if(b==0){
+                if(current.left==null){
+                    current.left=new trieNode();
+                }
+                current=current.left;
+            }else{
+                if(current.right==null){
+                    current.right=new trieNode();
+                }
+                current=current.right;
+            }
+        }
+    }
+
+    static int findMaxXORPair(int arr[]){
+        int maxValue=Integer.MIN_VALUE;
+        for(int i=0;i<arr.length;i++){
+            trieNode current=head;
+            int value=0;
+            for(int j=31;j>=0;j--){
+                int b=(arr[i]>>j)&1;
+                if(b==0){
+                    if(current.right!=null){
+                        value+=Math.pow(2,j);
+                        current=current.right;
+                    }else{
+                        current=current.left;
+                    }
+                }else{
+                    if(current.left!=null){
+                        value+=Math.pow(2,j);
+                        current=current.left;
+                    }else{
+                        current=current.right;
+                    }
+                }
+            }
+            maxValue=Math.max(maxValue,value);
+        }
+        return maxValue;
+    }
+    public static void main(String args[]){
+        int arr[]={8,1,2,15,10,5};
+        for(int i=0;i<arr.length;i++){
+            insert(arr[i]);
+        }
+        System.out.println(findMaxXORPair(arr));
+    }
+}
+

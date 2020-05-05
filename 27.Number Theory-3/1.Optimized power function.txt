@@ -1,0 +1,19 @@
+class Main{
+    static int pow(int num,int pow){
+        if(num==0){
+            return 0;
+        }
+        if(pow==0){
+            return 1;
+        }
+        if(pow%2==1){
+            return num*pow(num,pow-1);
+        }
+        int ans=pow(num,pow/2);
+        return ans*ans;
+    }
+
+    public static void main(String args[]){
+        System.out.println(pow(25,2));
+    }
+}

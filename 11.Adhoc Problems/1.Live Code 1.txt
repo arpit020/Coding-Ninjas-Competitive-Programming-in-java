@@ -1,0 +1,37 @@
+Live Code 1:
+Given two string we need to convert 1st into 2nd in minimum cost.
+cost to swap two charater is(jth-ith)position and flip a character cost 1.
+String only consists 0's and 1's.
+Solution:
+import java.util.Scanner;
+
+class Main{
+
+    public static int ans(String s1,String s2){
+        int cost=0;
+        for(int i=0;i<s1.length();){
+            if(s1.charAt(i)==s2.charAt(i))
+                i++;
+            else {
+                if(i+1<s1.length() && s1.charAt(i+1)!=s2.charAt(i+1) && s1.charAt(i)!=s1.charAt(i+1)) {
+                    cost++;
+                    i+=2;
+                }else {
+                    cost++;
+                    i++;
+                }
+            }
+        }
+        return cost;
+    }
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        sc.nextLine();
+        while (a-->0){
+            String s1=sc.nextLine();
+            String s2=sc.nextLine();
+            System.out.println(ans(s1,s2));
+        }
+    }
+}

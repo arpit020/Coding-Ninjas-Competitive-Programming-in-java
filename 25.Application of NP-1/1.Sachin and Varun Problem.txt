@@ -1,0 +1,105 @@
+Sachin And Varun Problem
+Send Feedback
+Varun and you are talking about a movie that you have recently watched while Sachin is busy teaching Number Theory. Sadly, Sachin caught Varun talking to you and asked him to answer his question in order to save himself from punishment. The question says:
+Given two weights of a and b units, in how many different ways you can achieve a weight of d units using only the given weights? Any of the given weights can be used any number of times (including 0 number of times).
+Since Varun is not able to answer the question, he asked you to help him otherwise he will get punished.
+Note: Two ways are considered different if either the number of times a is used or number of times b is used is different in the two ways.
+Input Format:
+The first line of input consists of an integer 
+T denoting the number of test cases.
+Each test case consists of only one line containing three space separated integers a, b and d.
+Output Format:
+For each test case, print the answer in a separate line.
+Constraints:
+1 =T= 10^5
+
+1 = a < b = 10^9
+
+0=d=10^9
+Sample Input 1
+4
+2 3 7
+4 10 6
+6 14 0
+2 3 6
+Sample Output 1
+1
+0
+1
+2
+Explanation
+Test case 1: 7 can only be achieved by using 2 two times and 3 one time.
+
+Test case 2: 6 can't be achieved by using 4 and 10 .So, 0ways are there.
+Solution:
+import java.util.Scanner;
+class Main{
+    static long gcd(long a,long b){
+        if(a>b){
+            return gcd(b,a);
+        }
+        if(a==0){
+            return b;
+        }
+        return gcd(b%a,a);
+    }
+
+    static Triplet ExtendedEuclidAlg(long a,long b){
+        if(b==0){
+            long x=1;
+            long y=0;
+            long gcd=a;
+            return new Triplet(x,y,gcd);
+        }
+        Triplet smallAns=ExtendedEuclidAlg(b,a%b);
+        long x=smallAns.y;
+        long y=smallAns.x-(a/b)*x;
+        long gcd=smallAns.gcd;
+        return new Triplet(x,y,gcd);
+    }
+
+    static long ModuloInverse(long a,long m){
+        long aa= ExtendedEuclidAlg(a,m).x;
+        return (aa%m+m)%m;
+    }
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int x=sc.nextInt();
+        for(int i=0;i<x;i++) {
+            long a = sc.nextLong();
+            long b = sc.nextLong();
+            long d = sc.nextLong();
+
+            long gcd=gcd(a,b);
+            a/=gcd;b/=gcd;
+            if(d%gcd!=0){
+                System.out.println(0);
+                continue;
+            }
+            if(d==0){
+                System.out.println(1);
+                continue;
+            }
+            d/=gcd;
+
+            long xx = ModuloInverse(b, a);
+            long y1 = (((d % a) * xx)% a);
+
+            long firtvaulue=d/b;
+            if(d<y1*b){
+                System.out.println(0);
+                continue;
+            }
+            long n=(firtvaulue-y1)/a;
+            System.out.println(n+1);
+        }
+    }
+}
+class Triplet{
+    long x,y,gcd;
+    public Triplet(long x, long y, long gcd) {
+        this.x = x;
+        this.y = y;
+        this.gcd = gcd;
+    }
+}

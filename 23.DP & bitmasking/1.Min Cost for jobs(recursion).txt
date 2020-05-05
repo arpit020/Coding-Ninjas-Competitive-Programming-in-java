@@ -1,0 +1,30 @@
+import java.util.Arrays;
+
+class Main{
+
+    static int minCost(int cost[][],int n,int p,int mask,int dp[]){
+        if(p>=n){
+            return 0;
+        }
+        if(dp[mask]!=Integer.MAX_VALUE){
+            return dp[mask];
+        }
+        int mim=Integer.MAX_VALUE;
+        for(int i=0;i<n;i++){
+            if((mask&(1<<i))==0){
+                 int ans=minCost(cost,n,p+1,mask|(1<<i),dp)+cost[p][i];
+                 if(ans<mim){
+                     mim=ans;
+                 }
+            }
+        }
+        return  dp[mask]=mim;
+    }
+    public static void main(String args[]){
+        int cosst[][]={{10,2,6,5},{1,15,12,8},{7,8,9,3},{15,13,4,10}};
+        int dp[]=new int[1<<4];
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        System.out.print(minCost(cosst,4,0,0,dp));
+
+    }
+}

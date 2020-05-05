@@ -1,0 +1,42 @@
+Loot Houses
+Send Feedback
+A thief wants to loot houses. He knows the amount of money in each house. He cannot loot two consecutive houses. Find the maximum amount of money he can loot.
+Input Format
+Line 1 : An integer N 
+Line 2 : N spaced integers denoting money in each house
+Output Format
+ Line 1 : Maximum amount of money looted
+Input Constraints
+1 <= n <= 10^4
+1 <= A[i] < 10^4
+Sample Input :
+6
+5 5 10 100 10 5
+Sample Output 1 :
+110
+
+Solution:
+
+
+
+
+public class Solution {
+	public static int getMaxMoney(int arr[], int n){
+        int xx[]=new int[arr.length];
+       if(n==0){
+           return 0;
+       }
+        xx[0]=arr[0];
+       if(n==1){
+           return xx[0];
+       }
+       xx[1]=Math.max(arr[0],arr[1]);
+       if(n==2){
+           return xx[1];
+       }
+       for(int j=2;j<arr.length;j++){
+           xx[j]=Math.max(xx[j-2]+arr[j],xx[j-1]);
+       }
+       return xx[n-1];
+    }
+}

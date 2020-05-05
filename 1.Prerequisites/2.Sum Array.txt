@@ -1,0 +1,59 @@
+Sum Array
+Send Feedback
+Given a 2-d square matrix of order ‘n’, find the sum of elements of both diagonals and all boundaries elements. Boundary elements refer to the elements present on all the four boundaries of matrix.
+Input:
+First line will have a single integer ‘n’ denoting the order of matrix.
+Next ‘n’ lines will have ‘n’ space separated integers each denoting the elements of matrix.
+Constraints:
+1<=n<=100
+Output:
+Print a single integer denoting the sum.
+Sample input:
+3
+1 2 3
+4 5 6
+7 8 9
+Sample Output:
+45
+
+Solution:
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+        int a=sc.nextInt();
+        int arr[][]=new int[a][a];
+        for(int i=0;i<a;i++){
+            for(int j=0;j<a;j++){
+             arr[i][j]=sc.nextInt();
+            }
+        }
+        int xx=0;
+        for(int i=0;i<a;i++){
+            for(int j=0;j<a;j++){
+                if(i==0){
+                    xx+=arr[i][j];
+                }
+                if(i==a-1){
+                    xx+=arr[i][j];
+                }
+                if(j==0  && i>0 && i<a-1){
+                    xx+=arr[i][j];
+                }
+                if(j==a-1 && i>0 && i<a-1){
+                    xx+=arr[i][j];
+                }
+                if(i==j && i!=0 && i!=a-1){
+                    xx+=arr[i][j];
+                }
+                 if(i+j==a-1 && i!=0 && i!=a-1 && i!=j){
+                    xx+=arr[i][j];
+                }
+                
+            }
+        }
+        System.out.println(xx);
+		
+	}
+}

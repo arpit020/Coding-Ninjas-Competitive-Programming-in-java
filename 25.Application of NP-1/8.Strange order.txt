@@ -1,0 +1,107 @@
+Strange order
+Send Feedback
+Given an integer n . Initially you have permutation p of size n : p[i] = i . To build new array a from p following steps are done while permutation p is not empty:
+Choose maximum existing element in p and define it as x ; Choose all such y in p that gcd ( x , y ) ? 1 ; Add all chosen numbers into array a in decreasing order and remove them from permutation. Your task is to find a after p became empty.
+Note: gcd ( a , b ) is the greatest common divisor of integers a and b .
+Input format
+Input contains single integer n ( 1 = n = 2 * 10^6) — the size of permutation p p.
+Output format
+Print n integers — array a .
+Sample Input:
+5
+Sample Output:
+5 4 2 3 1
+Explanation
+It's needed 4 iterations to create array a:
+Add 5
+Add 4 and 2
+Add 3
+Add 1
+Solution:
+#include<bits/stdc++.h>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int* lowest_primed( int n ){
+  int* arr = new int[n+1] ;
+  for( int i=0 ; i<= n ; i++ ){
+    arr[i] = 0 ;
+  }
+  for( int i=2 ; i <= n ; i++ ){
+    if( arr[i] == 0 ){
+      arr[i] = i ;
+      for( int j=2*i ; j<= n ; j+=i ){
+        if( arr[j] == 0 ){
+          arr[j] = i ;
+ 
+        }
+      }
+    }
+  }
+ 
+  return arr ;
+ 
+}
+ 
+void strange_order( int* p , int n ){
+ 
+  int *arr = lowest_primed( n ) ;
+  bool marked[n] ={0} ;
+  vector<int>  v1 ;
+ 
+  for( int i=n-1 ; i>=0 ; i-- ){
+    vector<int> v ;
+    if( marked[i] == 0 ){
+      v.push_back(p[i]) ;
+      marked[i] = 1 ;
+      int x = p[i] ;
+ 
+      int lpd = arr[x] ;
+      while( x != 1 ){
+        for( int j=i-lpd ; j>= 1 ; j-=lpd ){
+          if( marked[j] == 0 ){
+          	v.push_back(p[j]) ;
+          	marked[j] = 1 ;
+          }
+        }
+ 
+ 
+        while( x%lpd == 0 ){
+          x = x/lpd ;
+        }
+        lpd = arr[x] ; 
+ 
+      }
+ 
+    }
+ 
+    sort( v.begin() , v.end() , greater<int>()) ;
+ 
+    for( int i=0 ; i< v.size() ; i++){
+      v1.push_back(v[i]) ;
+    }
+ 
+  }
+ 
+  for( int i=0 ; i< v1.size() ; i++ ){
+    cout<<v1[i]<<" " ;
+  }
+ 
+}
+ 
+ 
+ 
+int main() {
+ 
+ 
+    int n ;
+  cin>> n ;
+ 
+  int *p = new int[n] ;
+  for( int i=0 ; i< n ; i++ ){
+    p[i] = i+1 ;
+  }
+ 
+  strange_order( p , n ) ;
+	// Write your code here
+}

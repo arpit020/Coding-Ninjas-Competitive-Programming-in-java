@@ -1,0 +1,134 @@
+Rat In A Maze Problem
+Send Feedback
+You are given a N*N maze with a rat placed at maze[0][0]. Find and print all paths that rat can follow to reach its destination i.e. maze[N-1][N-1]. Rat can move in any direc­tion ( left, right, up and down).
+Value of every cell in the maze can either be 0 or 1. Cells with value 0 are blocked means rat can­not enter into those cells and those with value 1 are open.
+Input Format
+Line 1 : Integer N
+Next N Lines : Each line will contain ith row elements (separated by space)
+Output Format :
+One Line for every possible solution. 
+Every line will have N*N maze elements printed row wise and are separated by space. Only cells that are part of solution path should be 1, rest all cells should be 0.
+Sample Input 1 :
+3
+1 0 1
+1 0 1
+1 1 1
+Sample Output 1 :
+1 0 0 1 0 0 1 1 1 
+Sample Output 1 Explanation :
+Only 1 path is possible
+Sample Input 2 :
+3
+1 0 1
+1 1 1
+1 1 1
+Sample Output 2 :
+1 0 0 1 1 1 1 1 1 
+1 0 0 1 0 0 1 1 1 
+1 0 0 1 1 0 0 1 1 
+1 0 0 1 1 1 0 0 1 
+Sample Output 2 Explanation :
+4 paths are possible
+
+Solution:
+public class Solution {	
+    static  int arr[][];
+    static boolean arr1[][];
+    public static void ratInAMaze(int array[][]){
+        int N=array.length;
+        arr=new int[N][N];
+        arr1=new boolean[N][N];
+        ratc(array,0,0,N);
+    }
+    static void ratc(int array[][],int row,int col,int N){
+        if(row==N-1 && col==N-1){
+            for(int i=0;i<N;i++){
+                for(int j=0;j<N;j++){
+                    System.out.print(arr[i][j]+" ");
+                }
+            }
+            System.out.println("");
+        }
+        arr1[row][col]=true;
+        if(row==0 && col==0){
+            arr[row][col]=1;
+        }
+        if((row-1)>=0 && arr1[row-1][col]==false ){
+            if(array[row-1][col]==1){
+                arr[row-1][col]=1;
+                ratc(array,row-1,col,N);
+                arr[row-1][col]=0;
+            }
+        }
+
+        if((row+1)<N && arr1[row+1][col]==false){
+            if(array[row+1][col]==1){
+                arr[row+1][col]=1;
+                ratc(array,row+1,col,N);
+                arr[row+1][col]=0;
+            }
+        }
+        if((col+1)<N && arr1[row][col+1]==false){
+            if(array[row][col+1]==1){
+                arr[row][col+1]=1;
+                ratc(array,row,col+1,N);
+                arr[row][col+1]=0;
+            }
+        }
+        if((col-1)>=0 && arr1[row][col-1]==false){
+            if(array[row][col-1]==1){
+                arr[row][col-1]=1;
+                ratc(array,row,col-1,N);
+                arr[row][col-1]=0;
+            }
+        }
+        arr1[row][col]=false;
+        return;
+    }
+}
+
+/*
+class Mqustn2{
+    static int pos[][]={{-1,0},{1,0},{0,1},{0,-1}};
+    public static boolean isPossible(int x,int y,int N){
+        if(x<0 || x>=N || y<0 || y>=N){
+            return false;
+        }
+        return true;
+    }
+    public static void ratInAMaze(int array[][]){
+        int N=array.length;
+        int ans[][]=new int[N][N];
+        place(array,ans,0,0,N);
+
+    }
+
+    static void place(int array[][],int ans[][],int x,int y,int N){
+        if(x==N-1 && y==N-1){
+            ans[x][y]=1;
+            for(int i=0;i<N;i++){
+                for(int j=0;j<N;j++){
+                    System.out.print(ans[i][j]+" ");
+                }
+            }
+            System.out.println();
+        }
+        ans[x][y]=1;
+        for(int i=0;i<4;i++){
+            int xx=x+pos[i][0];
+            int yy=y+pos[i][1];
+            if(isPossible(xx,yy,N) && array[xx][yy]==1 && ans[xx][yy]==0){
+                place(array,ans,xx,yy,N);
+            }
+        }
+        ans[x][y]=0;
+    }
+
+    public static void main(String args[]){
+        int array[][]={{1,0,1},{1,1,1},{1,1,1}};
+        ratInAMaze(array);
+
+    }
+
+}
+*/

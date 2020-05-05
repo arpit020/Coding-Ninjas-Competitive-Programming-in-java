@@ -1,0 +1,75 @@
+Find Prime Numbers From 1 to N
+Send Feedback
+Given a number N, find number of primes in the range [1,N].
+Input:
+The only line of input consists of a number N
+Output:
+Print the number of primes in the range [1,N].`
+Constraints:
+1=N=1000000
+Sample Input :
+3 
+Sample Output -
+2
+Solution:
+import java.util.*;
+public class Main{
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        boolean isPrime[]=new boolean[a+1];
+        Arrays.fill(isPrime,true);
+        isPrime[0]=false;
+        isPrime[1]=false;
+        for(int i=2;i*i<=a;i++) {
+            if (isPrime[i] == true) {
+                for (int j = i * i; j <= a; j = j + i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        int ans=0;
+        for(int i=0;i<=a;i++){
+            if(isPrime[i]==true){
+                ans++;
+            }
+        }
+        System.out.println(ans);
+    }
+}
+/*
+
+import java.util.Scanner;
+
+public class Main{
+
+   static boolean isPrime(int number){
+        int factor=0;
+        int limit=(int)Math.sqrt(number);
+        for(int i=1;i<=limit;i++){
+            if(number%i==0){
+                if(i*i==number){
+                    factor++;
+                }else{
+                    factor+=2;
+                }
+            }
+        }
+        if(factor==2){
+            return true;
+        }
+        return false;
+    }
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        int ans=0;
+        for(int i=1;i<=a;i++){
+            if(isPrime(i)){
+                ans++;
+            }
+        }
+        System.out.println(ans);
+    }
+}
+*/

@@ -1,0 +1,60 @@
+Edit Distance - Problem
+Send Feedback
+Given two strings s and t of lengths m and n respectively, find the Edit Distance between the strings. Edit Distance of two strings is minimum number of steps required to make one string equal to other. In order to do so you can perform following three operations only :
+1. Delete a character
+
+2. Replace a character with another one
+
+3. Insert a character
+Note - Strings don't contain spaces
+Input Format :
+Line 1 : String s
+Line 2 : String t
+Output Format :
+Line 1 : Edit Distance value
+Constraints
+1<= m,n <= 20
+Sample Input 1 :
+abc
+dc
+Sample Output 1 :
+2
+
+Solution:
+import java.util.*;
+public class Solution {
+
+	static int dp[][];
+	public static int editDistance(String s1, String s2){
+        dp=new int[s1.length()+1][s2.length()+1];
+        for(int i=0;i<=s1.length();i++){
+            for(int j=0;j<=s2.length();j++){
+                dp[i][j]=-1;
+            }
+        }
+		return Distance(s1,s2,0,0);
+    
+	}
+    
+    public static int Distance(String s1,String s2,int pos1,int pos2){
+        if(pos1==s1.length()){
+            return s2.length()-pos2;
+        }
+        if(pos2==s2.length()){
+            return s1.length()-pos1;
+        }
+        if(dp[pos1][pos2]>-1){
+            return dp[pos1][pos2];
+        }
+        if(s1.charAt(pos1)==s2.charAt(pos2)){
+            dp[pos1][pos2]=Distance(s1,s2,pos1+1,pos2+1);
+             return dp[pos1][pos2];
+            
+        }
+        int x1=1+Distance(s1,s2,pos1+1,pos2);
+        int x2=1+Distance(s1,s2,pos1+1,pos2+1);
+        int x3=1+Distance(s1,s2,pos1,pos2+1);
+        dp[pos1][pos2]=Math.min(x1,Math.min(x2,x3));
+        return dp[pos1][pos2];   
+    }
+}

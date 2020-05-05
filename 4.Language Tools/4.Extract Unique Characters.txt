@@ -1,0 +1,49 @@
+Extract Unique characters
+Send Feedback
+Given a string, you need to remove all the duplicates. That means, the output string should contain each character only once. The respective order of characters should remain same.
+Input format :
+String S
+Output format :
+Output String
+Constraints :
+0 <= Length of S <= 10^8
+Sample Input 1 :
+ababacd
+Sample Output 1 :
+abcd
+Sample Input 2 :
+abcde
+Sample Output 2 :
+abcde
+Solution:
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String str=sc.nextLine();
+        String[] arr=str.split(" ");
+        Map<String,Integer> map=new HashMap<>();
+        for(String x:arr){
+            int num=1;
+            if(map.get(x)!=null){
+                num=map.get(x)+1;
+            }
+            map.put(x,num);
+        }
+        boolean xx1=true;
+        for(Map.Entry<String,Integer> xx:map.entrySet()){
+            int v1=xx.getValue();
+            if(v1>1){
+                xx1=false;
+                System.out.println(xx.getKey()+" "+v1);
+            }
+        }
+        if(xx1){
+            System.out.println(-1);
+        }
+
+    }
+
+}

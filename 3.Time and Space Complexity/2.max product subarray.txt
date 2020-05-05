@@ -1,0 +1,27 @@
+class Main{
+    static int max_product_subarray(int array[],int n) {
+        int max = 0;
+        int max_ending = 1;
+        int min_ending = 1;
+        for (int i = 0; i < n; i++) {
+            if (array[i] > 0) {
+                max_ending = max_ending * array[i];
+                min_ending = Math.min(min_ending, min_ending * array[i]);
+            } else if (array[i] < 0) {
+                int temp = max_ending;
+                max_ending = Math.max(1, min_ending * array[i]);
+                min_ending = temp * array[i];
+            } else {
+                max_ending = 1;
+                min_ending = 0;
+            }
+            max = Math.max(max, max_ending);
+        }
+        return max;
+    }
+
+    public static void main(String args[]){
+        int array[]={-10,23,45,-23,89};
+        System.out.println(max_product_subarray(array,5));
+    }
+}

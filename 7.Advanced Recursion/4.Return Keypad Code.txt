@@ -1,0 +1,93 @@
+Return Keypad Code
+Send Feedback
+Given an integer n, using phone keypad find out all the possible strings that can be made using digits of input n.
+Return empty string for numbers 0 and 1.
+Note : The order of strings are not important.
+Input Format :
+Integer n
+Output Format :
+All possible strings in different lines
+Constraints :
+1 <= n <= 10^6
+Sample Input:
+23
+Sample Output:
+ad
+ae
+af
+bd
+be
+bf
+cd
+ce
+cf
+
+Solution:
+public class solution {
+	public static String[] keypad(int n){
+        String zz[]=new String[10000];
+        String zz1[]={""};
+        if(n==1 || n==0){
+            return zz1;
+        }
+        int mm=fun(n,zz);
+        String[] a1=new String[mm];
+        for(int i=0;i<mm;i++){
+            a1[i]=zz[i];
+        }
+        return a1;
+	}
+    static int fun(int s1,String arr[]){
+        if(s1==0){
+            arr[0]="";
+            return 1;
+        }
+        int mm=s1/10;
+        int xx=fun(mm,arr);
+        int mm1=s1%10;
+        for(int i=0;i<xx;i++){
+            arr[xx+i]=arr[i];
+            arr[2*xx+i]=arr[i];
+            if(mm1==9 || mm1==7){
+                 arr[3*xx+i]=arr[i];
+            }
+        }
+        String ss1="",ss2="",ss3="",ss4="";
+       
+        if(mm1==2){
+            ss1="a";ss2="b";ss3="c";
+        }else if(mm1==3){
+            ss1="d";ss2="e";ss3="f";
+        }
+        else if(mm1==4){
+            ss1="g";ss2="h";ss3="i";
+        }
+        else if(mm1==5){
+            ss1="j";ss2="k";ss3="l";
+        }
+        else if(mm1==6){
+            ss1="m";ss2="m";ss3="o";
+        }
+        else if(mm1==7){
+            ss1="p";ss2="q";ss3="r";ss4="s";
+        }
+        else if(mm1==8){
+            ss1="t";ss2="u";ss3="v";
+        }
+        else if(mm1==9){
+            ss1="w";ss2="x";ss3="y";ss4="z";
+        }
+        for(int i=0;i<xx;i++){
+            arr[i]=arr[i]+ss1;
+            arr[i+xx]=arr[i+xx]+ss2;
+            arr[i+2*xx]=arr[i+2*xx]+ss3;
+            if(mm1==7 || mm1==9){
+                arr[i+3*xx]=arr[i+3*xx]+ss4;
+            }   
+        }
+        if(mm1==9|| mm1==7){
+            return 4*xx;
+        }   
+        return 3*xx;
+    }
+}

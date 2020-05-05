@@ -1,0 +1,95 @@
+Print Keypad Combinations Code
+Send Feedback
+Given an integer n, using phone keypad find out and print all the possible strings that can be made using digits of input n.
+Note : The order of strings are not important. Just print different strings in new lines.
+Input Format :
+Integer n
+Output Format :
+All possible strings in different lines
+Constraints :
+1 <= n <= 10^6
+Sample Input:
+23
+Sample Output:
+ad
+ae
+af
+bd
+be
+bf
+cd
+ce
+cf
+
+Solution:
+public class solution {
+
+	public static void printKeypad(int input){
+		if(input==0 || input==1){
+            return;
+        }	
+        sub(input,"");
+	}
+static void sub(int s1,String output){
+        if(s1==0){
+            System.out.println(output);
+            return;
+        }
+        int x1=s1/10;
+        int x2=s1%10;
+          if(x1==1){
+            return;
+
+        }
+       else if(x2==2){
+            sub(x1,"a"+output);
+            sub(x1,"b"+output);
+            sub(x1,"c"+output);
+        }
+        else if(x2==3){
+            sub(x1,"d"+output);
+            sub(x1,"e"+output);
+            sub(x1,"f"+output);
+
+        }
+        else if(x2==4){
+            sub(x1,"g"+output);
+            sub(x1,"h"+output);
+            sub(x1,"i"+output);
+
+        }
+        else if(x2==5){
+            sub(x1,"j"+output);
+            sub(x1,"k"+output);
+            sub(x1,"l"+output);
+
+        }
+        else if(x2==6){
+            sub(x1,"m"+output);
+            sub(x1,"n"+output);
+            sub(x1,"o"+output);
+
+        }
+        else if(x2==7){
+            sub(x1,"p"+output);
+            sub(x1,"q"+output);
+            sub(x1,"r"+output);
+            sub(x1,"s"+output);
+
+
+        }
+        else if(x2==8){
+            sub(x1,"t"+output);
+            sub(x1,"u"+output);
+            sub(x1,"v"+output);
+
+        }
+        else if(x2==9){
+            sub(x1,"w"+output);
+            sub(x1,"x"+output);
+            sub(x1,"y"+output);
+            sub(x1,"z"+output);
+        }
+        }
+}
+    

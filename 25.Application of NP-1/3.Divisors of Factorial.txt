@@ -1,0 +1,76 @@
+Divisors Of Factorial
+Send Feedback
+Given a number, find the total number of divisors of the factorial of the number.
+Since the answer can be very large, print answer modulo 10^9+7.
+Input
+The first line contains T, number of testcases.
+
+
+T lines follows each containing the number N.
+Output
+Print T lines of output each containing the answer.
+Constraints
+1 <= T <= 500
+
+0 <= N <= 50000
+Sample Input:
+3
+2
+3
+4
+Sample Output:
+2
+4
+8
+Solution:
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
+class Main{
+    static int mod=1000000007;
+    static ArrayList<Integer> xx;
+    static ArrayList<Integer> fun(){
+        xx=new ArrayList<>();
+        boolean aa[]=new boolean[50000+1];
+        Arrays.fill(aa,true);
+        aa[0]=false;
+        aa[1]=false;
+        for(int i=2;i*i<=50000;i++){
+            if(aa[i]==true){
+                for(int k=i*i;k<=50000;k+=i){
+                    aa[k]=false;
+                }
+            }
+        }
+        xx.add(2);
+        for(int i=3;i<=50000;i+=2){
+            if (aa[i]){
+                xx.add(i);
+            }
+        }
+        return xx;
+    }
+    static long function(int value){
+        long ans=1;
+        for(int i=0;xx.get(i)<=value;i++){
+            int k=xx.get(i);
+            long number=0;
+            while (value/k!=0){
+                number=(number+value/k)%mod;
+                k=(k%mod*(xx.get(i)%mod))%mod;
+            }
+            ans=(ans%mod*(number+1)%mod)%mod;
+        }
+        return ans;
+    }
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        fun();
+        int a=sc.nextInt();
+        for(int i=0;i<a;i++){
+            int b=sc.nextInt();
+            System.out.println(function(b));
+        }
+    }
+}

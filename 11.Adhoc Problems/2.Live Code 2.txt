@@ -1,0 +1,33 @@
+Live code 3:
+Rectangles area
+Your are given n number of rectangles with total x length and y length with origin as center and 
+have common area overlap .We need to find the total area of all rectangles after eleminating commin area.
+
+Solution:
+import java.util.Scanner;
+class Main{
+    public static void main(String args[]){
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        int max_x=0;
+        int height[]=new int[5000000+2];
+        while (a-->0){
+            int x=sc.nextInt();
+            int y=sc.nextInt();
+            if(height[x/2]<y){
+                height[x/2]=y;
+            }
+            if(x/2>max_x){
+                max_x=x/2;
+            }
+        }
+        long area=0;
+        for(int i=max_x;i>0;i--){
+            if(height[i]<height[i+1]){
+                height[i]=height[i+1];
+            }
+            area+=height[i];
+        }
+        System.out.println(2*area);
+    }
+}

@@ -1,0 +1,24 @@
+class Main{
+    public  static int modular_expo(int a,int b,int c) {
+        if(a==0){
+            return 0;
+        }
+        if(b==0){
+            return 1;
+        }
+        long ans=1;
+        long a1=a;
+        while (b!=0){
+            if((b&1)==1){
+                ans=(ans*a1)%c;
+            }
+            a1=((a1%c)*(a1%c))%c;
+            b=b/2;
+        }
+
+        return (int)(ans+c)%c;
+    }
+    public static void main(String[] args){
+        System.out.println(modular_expo(2,10,5));
+    }
+}
